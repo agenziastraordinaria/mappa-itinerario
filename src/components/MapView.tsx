@@ -48,7 +48,7 @@ function generateMarkerImage(
   ctx.stroke();
 
   ctx.fillStyle = "white";
-  ctx.font = `bold ${size * 0.38}px 'DM Sans', sans-serif`;
+  ctx.font = `bold ${size * 0.38}px 'PP Pangram Sans', system-ui, sans-serif`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(String(order), r, r + 1);
