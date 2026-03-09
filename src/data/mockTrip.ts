@@ -9,7 +9,6 @@ export interface Stop {
   description: string;
   date: string;
   image: string;
-  status: StopStatus;
 }
 
 export interface Trip {
@@ -35,7 +34,6 @@ export const mockTrip: Trip = {
       description: "Explore Gaudí's masterpieces, stroll down La Rambla, and enjoy tapas by the beach.",
       date: "Jun 12, 2025",
       image: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=400&h=250&fit=crop",
-      status: "visited",
     },
     {
       id: "2",
@@ -46,7 +44,6 @@ export const mockTrip: Trip = {
       description: "Walk the Promenade des Anglais and discover the vibrant Old Town markets.",
       date: "Jun 16, 2025",
       image: "https://images.unsplash.com/photo-1491166617655-0723a0999cfc?w=400&h=250&fit=crop",
-      status: "visited",
     },
     {
       id: "3",
@@ -57,7 +54,6 @@ export const mockTrip: Trip = {
       description: "Visit the Colosseum, toss a coin in Trevi Fountain, and savor authentic pasta.",
       date: "Jun 20, 2025",
       image: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=400&h=250&fit=crop",
-      status: "current",
     },
     {
       id: "4",
@@ -68,7 +64,6 @@ export const mockTrip: Trip = {
       description: "Watch the sunset over the caldera from the white-washed cliffs of Oia.",
       date: "Jun 25, 2025",
       image: "https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=400&h=250&fit=crop",
-      status: "upcoming",
     },
     {
       id: "5",
@@ -79,7 +74,6 @@ export const mockTrip: Trip = {
       description: "Walk the ancient city walls and kayak along the stunning Adriatic coast.",
       date: "Jun 30, 2025",
       image: "https://images.unsplash.com/photo-1555990538-1e15c2dd09be?w=400&h=250&fit=crop",
-      status: "upcoming",
     },
   ],
 };
