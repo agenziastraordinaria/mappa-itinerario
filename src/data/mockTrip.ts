@@ -41,8 +41,8 @@ export const mockTrip: Trip = {
       order: 2,
       latitude: 43.7102,
       longitude: 7.262,
-      description: "Walk the Promenade des Anglais and discover the vibrant Old Town markets.",
-      date: "Jun 16, 2025",
+      description: "Passeggia sulla Promenade des Anglais e scopri i vivaci mercati della Città Vecchia.",
+      date: "16 Giu 2025",
       image: "https://images.unsplash.com/photo-1491166617655-0723a0999cfc?w=400&h=250&fit=crop",
     },
     {
