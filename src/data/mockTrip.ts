@@ -31,8 +31,8 @@ export const mockTrip: Trip = {
       order: 1,
       latitude: 41.3851,
       longitude: 2.1734,
-      description: "Explore Gaudí's masterpieces, stroll down La Rambla, and enjoy tapas by the beach.",
-      date: "Jun 12, 2025",
+      description: "Esplora i capolavori di Gaudí, passeggia lungo La Rambla e gusta tapas in riva al mare.",
+      date: "12 Giu 2025",
       image: "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=400&h=250&fit=crop",
     },
     {
