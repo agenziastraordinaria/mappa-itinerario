@@ -1,10 +1,14 @@
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { Trip, Stop } from "@/data/mockTrip";
-import { stopsToRouteGeoJSON, getBounds } from "@/lib/mapUtils";
+import { stopsToRouteGeoJSON, stopsToPointsGeoJSON, getBounds } from "@/lib/mapUtils";
 
 const MAPBOX_TOKEN = "pk.eyJ1IjoidmluY2dpdXJhIiwiYSI6ImNtbWpueTE2dTA5c2QycnNhZ2Q1ejQwNjYifQ.L9WxOIajAYznHCgugUZxMQ";
+
+const MARKER_LAYER = "stops-symbols";
+const MARKER_SOURCE = "stops";
+const SELECTED_LAYER = "stops-selected";
 
 interface MapViewProps {
   trip: Trip;
@@ -12,23 +16,47 @@ interface MapViewProps {
   onSelectStop: (id: string) => void;
 }
 
-function createMarkerEl(stop: Stop, isActive: boolean): HTMLDivElement {
-  const el = document.createElement("div");
-  el.className = "mapbox-marker";
-  if (isActive) el.classList.add("active");
+/** Generate a numbered circle image for use as a symbol icon */
+function generateMarkerImage(
+  order: number,
+  size: number,
+  bg: string,
+  border: string
+): HTMLCanvasElement {
+  const canvas = document.createElement("canvas");
+  const ratio = window.devicePixelRatio || 1;
+  canvas.width = size * ratio;
+  canvas.height = size * ratio;
+  const ctx = canvas.getContext("2d")!;
+  ctx.scale(ratio, ratio);
 
-  el.style.cssText = `
-    width: 34px; height: 34px; border-radius: 50%;
-    background: ${isActive ? "hsl(24, 80%, 55%)" : "hsl(210, 70%, 45%)"};
-    color: white; display: flex; align-items: center; justify-content: center;
-    font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px;
-    border: 3px solid white; box-shadow: 0 2px 10px rgba(0,0,0,0.25);
-    cursor: pointer; transition: transform 0.2s;
-    transform: scale(${isActive ? 1.35 : 1});
-    z-index: ${isActive ? 10 : 1};
-  `;
-  el.textContent = String(stop.order);
-  return el;
+  const r = size / 2;
+
+  // Shadow
+  ctx.shadowColor = "rgba(0,0,0,0.25)";
+  ctx.shadowBlur = 6;
+  ctx.shadowOffsetY = 2;
+
+  // Circle
+  ctx.beginPath();
+  ctx.arc(r, r, r - 3, 0, Math.PI * 2);
+  ctx.fillStyle = bg;
+  ctx.fill();
+
+  // Border
+  ctx.shadowColor = "transparent";
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = border;
+  ctx.stroke();
+
+  // Number
+  ctx.fillStyle = "white";
+  ctx.font = `bold ${size * 0.38}px 'DM Sans', sans-serif`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(String(order), r, r + 1);
+
+  return canvas;
 }
 
 function createPopupHTML(stop: Stop): string {
@@ -59,12 +87,12 @@ function createPopupHTML(stop: Stop): string {
 const MapView = ({ trip, selectedStopId, onSelectStop }: MapViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<mapboxgl.Map | null>(null);
-  const markersRef = useRef<Record<string, mapboxgl.Marker>>({});
   const popupRef = useRef<mapboxgl.Popup | null>(null);
   const onSelectStopRef = useRef(onSelectStop);
   onSelectStopRef.current = onSelectStop;
+  const readyRef = useRef(false);
 
-  // Initialize map
+  // Initialize map once
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
 
@@ -82,9 +110,17 @@ const MapView = ({ trip, selectedStopId, onSelectStop }: MapViewProps) => {
     map.addControl(new mapboxgl.AttributionControl({ compact: true }), "bottom-right");
 
     map.on("load", () => {
+      // Register marker images for each stop
+      const markerSize = 38;
+      for (const stop of trip.stops) {
+        const defaultImg = generateMarkerImage(stop.order, markerSize, "hsl(210, 70%, 45%)", "white");
+        const activeImg = generateMarkerImage(stop.order, markerSize + 10, "hsl(24, 80%, 55%)", "white");
+        map.addImage(`marker-${stop.order}`, defaultImg, { pixelRatio: window.devicePixelRatio || 1 });
+        map.addImage(`marker-active-${stop.order}`, activeImg, { pixelRatio: window.devicePixelRatio || 1 });
+      }
+
       // Route line
-      const routeGeo = stopsToRouteGeoJSON(trip.stops);
-      map.addSource("route", { type: "geojson", data: routeGeo });
+      map.addSource("route", { type: "geojson", data: stopsToRouteGeoJSON(trip.stops) });
       map.addLayer({
         id: "route-line",
         type: "line",
@@ -97,9 +133,62 @@ const MapView = ({ trip, selectedStopId, onSelectStop }: MapViewProps) => {
         },
       });
 
+      // Stops source
+      map.addSource(MARKER_SOURCE, { type: "geojson", data: stopsToPointsGeoJSON(trip.stops) });
+
+      // Default markers layer
+      map.addLayer({
+        id: MARKER_LAYER,
+        type: "symbol",
+        source: MARKER_SOURCE,
+        layout: {
+          "icon-image": ["concat", "marker-", ["get", "order"]],
+          "icon-size": 1,
+          "icon-allow-overlap": true,
+          "icon-ignore-placement": true,
+        },
+        filter: ["!=", ["get", "id"], ""],
+      });
+
+      // Selected marker layer (rendered on top)
+      map.addLayer({
+        id: SELECTED_LAYER,
+        type: "symbol",
+        source: MARKER_SOURCE,
+        layout: {
+          "icon-image": ["concat", "marker-active-", ["get", "order"]],
+          "icon-size": 1,
+          "icon-allow-overlap": true,
+          "icon-ignore-placement": true,
+        },
+        filter: ["==", ["get", "id"], ""],
+      });
+
+      // Click handler
+      map.on("click", MARKER_LAYER, (e) => {
+        const feature = e.features?.[0];
+        if (feature?.properties?.id) {
+          onSelectStopRef.current(feature.properties.id);
+        }
+      });
+      map.on("click", SELECTED_LAYER, (e) => {
+        const feature = e.features?.[0];
+        if (feature?.properties?.id) {
+          onSelectStopRef.current(feature.properties.id);
+        }
+      });
+
+      // Pointer cursor on hover
+      map.on("mouseenter", MARKER_LAYER, () => { map.getCanvas().style.cursor = "pointer"; });
+      map.on("mouseleave", MARKER_LAYER, () => { map.getCanvas().style.cursor = ""; });
+      map.on("mouseenter", SELECTED_LAYER, () => { map.getCanvas().style.cursor = "pointer"; });
+      map.on("mouseleave", SELECTED_LAYER, () => { map.getCanvas().style.cursor = ""; });
+
       // Fit bounds
       const bounds = getBounds(trip.stops);
       map.fitBounds(bounds, { padding: 80, duration: 0 });
+
+      readyRef.current = true;
     });
 
     mapRef.current = map;
@@ -107,55 +196,57 @@ const MapView = ({ trip, selectedStopId, onSelectStop }: MapViewProps) => {
     return () => {
       map.remove();
       mapRef.current = null;
+      readyRef.current = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Create / update markers
+  // Update selection filter + flyTo + popup
   useEffect(() => {
     const map = mapRef.current;
-    if (!map) return;
+    if (!map || !readyRef.current) {
+      // If map not ready yet, retry after style load
+      const handler = () => {
+        updateSelection();
+        map?.off("load", handler);
+      };
+      map?.on("load", handler);
+      return;
+    }
+    updateSelection();
 
-    // Remove old markers
-    Object.values(markersRef.current).forEach((m) => m.remove());
-    markersRef.current = {};
+    function updateSelection() {
+      const map = mapRef.current;
+      if (!map) return;
 
-    trip.stops.forEach((stop) => {
-      const isActive = selectedStopId === stop.id;
-      const el = createMarkerEl(stop, isActive);
+      // Update filters to swap which layer renders the selected marker
+      if (map.getLayer(MARKER_LAYER)) {
+        map.setFilter(MARKER_LAYER, selectedStopId
+          ? ["!=", ["get", "id"], selectedStopId]
+          : ["!=", ["get", "id"], ""]
+        );
+      }
+      if (map.getLayer(SELECTED_LAYER)) {
+        map.setFilter(SELECTED_LAYER, selectedStopId
+          ? ["==", ["get", "id"], selectedStopId]
+          : ["==", ["get", "id"], ""]
+        );
+      }
 
-      el.addEventListener("click", (e) => {
-        e.stopPropagation();
-        onSelectStopRef.current(stop.id);
-      });
+      if (!selectedStopId) return;
 
-      const marker = new mapboxgl.Marker({ element: el })
+      const stop = trip.stops.find((s) => s.id === selectedStopId);
+      if (!stop) return;
+
+      map.flyTo({ center: [stop.longitude, stop.latitude], zoom: 8, duration: 1200 });
+
+      popupRef.current?.remove();
+      const popup = new mapboxgl.Popup({ offset: 24, maxWidth: "300px", closeButton: true })
         .setLngLat([stop.longitude, stop.latitude])
+        .setHTML(createPopupHTML(stop))
         .addTo(map);
-
-      markersRef.current[stop.id] = marker;
-    });
-  }, [trip.stops, selectedStopId]);
-
-  // Fly to selected stop + show popup
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map || !selectedStopId) return;
-
-    const stop = trip.stops.find((s) => s.id === selectedStopId);
-    if (!stop) return;
-
-    map.flyTo({ center: [stop.longitude, stop.latitude], zoom: 8, duration: 1200 });
-
-    // Close previous popup
-    popupRef.current?.remove();
-
-    const popup = new mapboxgl.Popup({ offset: 24, maxWidth: "300px", closeButton: true })
-      .setLngLat([stop.longitude, stop.latitude])
-      .setHTML(createPopupHTML(stop))
-      .addTo(map);
-
-    popupRef.current = popup;
+      popupRef.current = popup;
+    }
   }, [selectedStopId, trip.stops]);
 
   return <div ref={containerRef} className="w-full h-full" />;
