@@ -12,10 +12,6 @@ export default defineConfig(({ mode }) => ({
       overlay: false,
     },
   },
-  optimizeDeps: {
-    include: ["react", "react-dom", "react-leaflet", "leaflet"],
-    force: true,
-  },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
     alias: {

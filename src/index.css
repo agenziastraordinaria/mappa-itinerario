@@ -8,34 +8,24 @@
   :root {
     --background: 40 33% 98%;
     --foreground: 220 20% 14%;
-
     --card: 0 0% 100%;
     --card-foreground: 220 20% 14%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 220 20% 14%;
-
     --primary: 210 70% 45%;
     --primary-foreground: 0 0% 100%;
-
     --secondary: 40 40% 94%;
     --secondary-foreground: 220 20% 14%;
-
     --muted: 40 20% 94%;
     --muted-foreground: 220 10% 46%;
-
     --accent: 24 80% 55%;
     --accent-foreground: 0 0% 100%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 40 15% 88%;
     --input: 40 15% 88%;
     --ring: 210 70% 45%;
-
     --radius: 0.75rem;
-
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 220 20% 14%;
     --sidebar-primary: 210 70% 45%;
@@ -44,11 +34,9 @@
     --sidebar-accent-foreground: 220 20% 14%;
     --sidebar-border: 40 15% 88%;
     --sidebar-ring: 210 70% 45%;
-
     --travel-green: 152 55% 45%;
     --travel-amber: 38 92% 50%;
     --travel-rose: 350 70% 55%;
-
     --font-display: 'Playfair Display', serif;
     --font-body: 'DM Sans', sans-serif;
   }
@@ -97,52 +85,19 @@
   }
 }
 
-/* Leaflet overrides */
-.leaflet-container {
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
-.custom-marker {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: hsl(210 70% 45%);
-  color: white;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 14px;
-  border: 3px solid white;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-  transition: transform 0.2s;
-}
-
-.custom-marker.active {
-  background: hsl(24 80% 55%);
-  transform: scale(1.3);
-  z-index: 1000 !important;
-}
-
-.leaflet-popup-content-wrapper {
+/* Mapbox popup overrides */
+.mapboxgl-popup-content {
   border-radius: 12px !important;
   padding: 0 !important;
   overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.15) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15) !important;
 }
 
-.leaflet-popup-content {
-  margin: 0 !important;
-  width: 280px !important;
-}
-
-.leaflet-popup-close-button {
+.mapboxgl-popup-close-button {
   z-index: 10;
-  color: white !important;
-  font-size: 20px !important;
-  top: 6px !important;
-  right: 8px !important;
+  color: white;
+  font-size: 20px;
+  top: 4px;
+  right: 8px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
 }
