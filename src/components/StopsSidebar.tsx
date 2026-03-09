@@ -19,7 +19,7 @@ const StopsSidebar = ({ trip, selectedStopId, onSelectStop, onOpenDetail }: Stop
             Itinerario
           </span>
         </div>
-        <h1 className="font-display text-xl font-bold text-foreground">{trip.title}</h1>
+        <h1 className="text-xl font-bold text-foreground">{trip.title}</h1>
         <p className="text-xs text-muted-foreground mt-1">
           {trip.stops.length} tappe
         </p>
