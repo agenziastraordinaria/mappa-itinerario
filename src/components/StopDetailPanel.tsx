@@ -50,7 +50,7 @@ const StopDetailPanel = ({ stop, onClose }: StopDetailPanelProps) => {
                   <span className="text-white/70 text-sm font-medium">
                     Tappa {stop.order}
                   </span>
-                  <h2 className="font-display text-3xl font-bold text-white leading-tight mt-1">
+                  <h2 className="text-3xl font-bold text-white leading-tight mt-1">
                     {stop.title}
                   </h2>
                   {stop.date && (
@@ -67,7 +67,7 @@ const StopDetailPanel = ({ stop, onClose }: StopDetailPanelProps) => {
                   <span className="text-muted-foreground text-sm font-medium">
                     Tappa {stop.order}
                   </span>
-                  <h2 className="font-display text-3xl font-bold text-foreground leading-tight">
+                  <h2 className="text-3xl font-bold text-foreground leading-tight">
                     {stop.title}
                   </h2>
                   {stop.date && (

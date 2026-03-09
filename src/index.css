@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@600;700&display=swap');
+
 
 @layer base {
   :root {
@@ -37,8 +37,7 @@
     --travel-green: 152 55% 45%;
     --travel-amber: 38 92% 50%;
     --travel-rose: 350 70% 55%;
-    --font-display: 'Playfair Display', serif;
-    --font-body: 'DM Sans', sans-serif;
+    --font-primary: 'PP Pangram Sans', system-ui, sans-serif;
   }
 
   .dark {
@@ -78,10 +77,11 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-body);
+    font-family: var(--font-primary);
   }
   h1, h2, h3 {
-    font-family: var(--font-display);
+    font-family: var(--font-primary);
+    font-weight: 700;
   }
 }
 

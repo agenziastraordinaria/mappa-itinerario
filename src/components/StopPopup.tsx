@@ -15,7 +15,7 @@ const StopPopup = ({ stop }: StopPopupProps) => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         <div className="absolute bottom-2 left-3 right-3">
-          <h3 className="text-white font-display font-bold text-lg leading-tight">{stop.title}</h3>
+          <h3 className="text-white font-bold text-lg leading-tight">{stop.title}</h3>
           <p className="text-white/80 text-xs">{stop.date}</p>
         </div>
       </div>
