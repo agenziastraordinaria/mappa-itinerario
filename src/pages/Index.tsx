@@ -1,4 +1,4 @@
-import TravelMapPage from "./pages/TravelMapPage";
+import TravelMapPage from "./TravelMapPage";
 
 const Index = () => <TravelMapPage />;
 
