@@ -20,37 +20,49 @@ const StopCard = ({ stop, isActive, onClick, onOpenDetail }: StopCardProps) => {
   return (
     <div
       className={cn(
-        "rounded-lg transition-colors border",
+        "rounded-xl border transition-all duration-200",
         isActive
-          ? "bg-primary/10 border-primary/30"
-          : "hover:bg-secondary border-transparent"
+          ? "bg-primary/8 border-primary/25 shadow-sm"
+          : "bg-card border-border/50 hover:bg-secondary/60 hover:border-border"
       )}
     >
       <button
         onClick={onClick}
-        className="w-full flex items-start gap-3 p-3 text-left"
+        className="w-full flex items-start gap-3 p-3.5 text-left"
       >
-        <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold bg-primary text-primary-foreground">
+        <div
+          className={cn(
+            "flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors",
+            isActive
+              ? "bg-primary text-primary-foreground"
+              : "bg-muted text-muted-foreground"
+          )}
+        >
           {stop.order}
         </div>
 
         <div className="flex-1 min-w-0">
-          <p className={cn("font-semibold text-sm truncate", isActive ? "text-primary" : "text-foreground")}>
+          <p className={cn(
+            "font-semibold text-sm truncate transition-colors",
+            isActive ? "text-primary" : "text-foreground"
+          )}>
             {stop.title}
           </p>
           {stop.date && (
-            <p className="text-xs text-muted-foreground mt-0.5">{stop.date}</p>
+            <p className="text-[11px] text-muted-foreground mt-0.5 tracking-wide uppercase">
+              {stop.date}
+            </p>
           )}
-          <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+          <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
             {truncate(stop.description, 120)}
           </p>
         </div>
       </button>
 
-      <div className="px-3 pb-2">
+      <div className="px-3.5 pb-2.5">
         <button
           onClick={(e) => { e.stopPropagation(); setExpanded(v => !v); }}
-          className="flex items-center gap-1 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
+          className="flex items-center gap-1 text-xs font-medium text-primary/70 hover:text-primary transition-colors"
         >
           <span>{expanded ? "Comprimi" : "Espandi"}</span>
           <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.2 }}>
@@ -68,8 +80,8 @@ const StopCard = ({ stop, isActive, onClick, onOpenDetail }: StopCardProps) => {
             transition={{ duration: 0.25, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="px-3 pb-3 space-y-2">
-              <p className="text-sm text-foreground leading-relaxed">{stop.description}</p>
+            <div className="px-3.5 pb-3.5 pt-1 space-y-2.5 border-t border-border/30 mx-3.5 mb-1">
+              <p className="text-sm text-foreground/90 leading-relaxed pt-2.5">{stop.description}</p>
               <button
                 onClick={(e) => { e.stopPropagation(); onOpenDetail(stop); }}
                 className="text-sm font-semibold text-accent hover:text-accent/80 transition-colors underline underline-offset-2"

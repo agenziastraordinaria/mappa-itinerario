@@ -25,7 +25,7 @@ const StopsSidebar = ({ trip, selectedStopId, onSelectStop, onOpenDetail }: Stop
         </p>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-3 space-y-1">
+      <div className="flex-1 overflow-y-auto p-3 space-y-2">
         {trip.stops.map(stop => (
           <StopCard
             key={stop.id}
