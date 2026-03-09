@@ -37,8 +37,7 @@
     --travel-green: 152 55% 45%;
     --travel-amber: 38 92% 50%;
     --travel-rose: 350 70% 55%;
-    --font-display: 'Playfair Display', serif;
-    --font-body: 'DM Sans', sans-serif;
+    --font-primary: 'PP Pangram Sans', system-ui, sans-serif;
   }
 
   .dark {
