@@ -22,41 +22,38 @@ function generateMarkerImage(
   size: number,
   bg: string,
   border: string
-): HTMLCanvasElement {
+): ImageData {
   const canvas = document.createElement("canvas");
   const ratio = window.devicePixelRatio || 1;
-  canvas.width = size * ratio;
-  canvas.height = size * ratio;
+  const px = size * ratio;
+  canvas.width = px;
+  canvas.height = px;
   const ctx = canvas.getContext("2d")!;
   ctx.scale(ratio, ratio);
 
   const r = size / 2;
 
-  // Shadow
   ctx.shadowColor = "rgba(0,0,0,0.25)";
   ctx.shadowBlur = 6;
   ctx.shadowOffsetY = 2;
 
-  // Circle
   ctx.beginPath();
   ctx.arc(r, r, r - 3, 0, Math.PI * 2);
   ctx.fillStyle = bg;
   ctx.fill();
 
-  // Border
   ctx.shadowColor = "transparent";
   ctx.lineWidth = 3;
   ctx.strokeStyle = border;
   ctx.stroke();
 
-  // Number
   ctx.fillStyle = "white";
   ctx.font = `bold ${size * 0.38}px 'DM Sans', sans-serif`;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(String(order), r, r + 1);
 
-  return canvas;
+  return ctx.getImageData(0, 0, px, px);
 }
 
 function createPopupHTML(stop: Stop): string {
