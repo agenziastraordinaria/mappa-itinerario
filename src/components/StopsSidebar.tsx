@@ -1,4 +1,4 @@
-import { Trip } from "@/data/mockTrip";
+import { Trip, Stop } from "@/data/mockTrip";
 import StopCard from "./StopCard";
 import { MapPin } from "lucide-react";
 
@@ -6,9 +6,10 @@ interface StopsSidebarProps {
   trip: Trip;
   selectedStopId: string | null;
   onSelectStop: (id: string) => void;
+  onOpenDetail: (stop: Stop) => void;
 }
 
-const StopsSidebar = ({ trip, selectedStopId, onSelectStop }: StopsSidebarProps) => {
+const StopsSidebar = ({ trip, selectedStopId, onSelectStop, onOpenDetail }: StopsSidebarProps) => {
   const visited = trip.stops.filter(s => s.status === "visited").length;
 
   return (
@@ -25,7 +26,6 @@ const StopsSidebar = ({ trip, selectedStopId, onSelectStop }: StopsSidebarProps)
         <p className="text-xs text-muted-foreground mt-1">
           {visited} of {trip.stops.length} stops visited
         </p>
-        {/* Progress bar */}
         <div className="mt-3 h-1.5 bg-secondary rounded-full overflow-hidden">
           <div
             className="h-full bg-travel-green rounded-full transition-all"
@@ -42,6 +42,7 @@ const StopsSidebar = ({ trip, selectedStopId, onSelectStop }: StopsSidebarProps)
             stop={stop}
             isActive={selectedStopId === stop.id}
             onClick={() => onSelectStop(stop.id)}
+            onOpenDetail={onOpenDetail}
           />
         ))}
       </div>
