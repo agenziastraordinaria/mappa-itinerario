@@ -58,7 +58,7 @@ function generateMarkerImage(
 
 function createPopupHTML(stop: Stop): string {
   return `
-    <div style="width:280px;overflow:hidden;font-family:'DM Sans',sans-serif">
+    <div style="width:280px;overflow:hidden;font-family:'PP Pangram Sans',system-ui,sans-serif">
       ${stop.image ? `
         <div style="position:relative;height:140px">
           <img src="${stop.image}" alt="${stop.title}" style="width:100%;height:100%;object-fit:cover" />
