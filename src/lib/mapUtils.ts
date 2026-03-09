@@ -24,7 +24,7 @@ export function stopsToPointsGeoJSON(stops: Stop[]): GeoJSON.FeatureCollection<G
         date: s.date,
         description: s.description,
         image: s.image,
-        status: s.status,
+        
       },
       geometry: {
         type: "Point",

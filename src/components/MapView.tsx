@@ -17,15 +17,9 @@ function createMarkerEl(stop: Stop, isActive: boolean): HTMLDivElement {
   el.className = "mapbox-marker";
   if (isActive) el.classList.add("active");
 
-  const statusColors: Record<string, string> = {
-    visited: "hsl(152, 55%, 45%)",
-    current: "hsl(24, 80%, 55%)",
-    upcoming: "hsl(210, 70%, 45%)",
-  };
-
   el.style.cssText = `
     width: 34px; height: 34px; border-radius: 50%;
-    background: ${isActive ? "hsl(24, 80%, 55%)" : statusColors[stop.status]};
+    background: ${isActive ? "hsl(24, 80%, 55%)" : "hsl(210, 70%, 45%)"};
     color: white; display: flex; align-items: center; justify-content: center;
     font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px;
     border: 3px solid white; box-shadow: 0 2px 10px rgba(0,0,0,0.25);
