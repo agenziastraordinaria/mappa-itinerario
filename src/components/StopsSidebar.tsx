@@ -16,7 +16,7 @@ const StopsSidebar = ({ trip, selectedStopId, onSelectStop, onOpenDetail }: Stop
         <div className="flex items-center gap-2 mb-1">
           <MapPin className="w-5 h-5 text-accent" />
           <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Trip Planner
+            Itinerario
           </span>
         </div>
         <h1 className="font-display text-xl font-bold text-foreground">{trip.title}</h1>
