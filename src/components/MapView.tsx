@@ -70,7 +70,7 @@ function createPopupHTML(stop: Stop): string {
         </div>
       ` : `
         <div style="padding:12px 12px 0">
-          <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:18px;margin:0">${stop.title}</h3>
+          <h3 style="font-family:'PP Pangram Sans',system-ui,sans-serif;font-weight:700;font-size:18px;margin:0">${stop.title}</h3>
           <p style="color:#888;font-size:12px;margin:4px 0 0">${stop.date}</p>
         </div>
       `}

@@ -77,10 +77,11 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-body);
+    font-family: var(--font-primary);
   }
   h1, h2, h3 {
-    font-family: var(--font-display);
+    font-family: var(--font-primary);
+    font-weight: 700;
   }
 }
 
