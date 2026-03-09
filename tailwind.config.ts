@@ -13,6 +13,10 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        display: ['Playfair Display', 'serif'],
+        body: ['DM Sans', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -46,6 +50,11 @@ export default {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        travel: {
+          green: "hsl(var(--travel-green))",
+          amber: "hsl(var(--travel-amber))",
+          rose: "hsl(var(--travel-rose))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
