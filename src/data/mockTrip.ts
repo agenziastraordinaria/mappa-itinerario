@@ -20,7 +20,7 @@ export interface Trip {
 }
 
 export const mockTrip: Trip = {
-  title: "Mediterranean Summer",
+  title: "Estate Mediterranea",
   slug: "mediterranean-summer",
   mapCenter: [41.0, 15.0],
   zoom: 5,
