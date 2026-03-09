@@ -51,8 +51,8 @@ export const mockTrip: Trip = {
       order: 3,
       latitude: 41.9028,
       longitude: 12.4964,
-      description: "Visit the Colosseum, toss a coin in Trevi Fountain, and savor authentic pasta.",
-      date: "Jun 20, 2025",
+      description: "Visita il Colosseo, lancia una moneta nella Fontana di Trevi e assapora una pasta autentica.",
+      date: "20 Giu 2025",
       image: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=400&h=250&fit=crop",
     },
     {
