@@ -1,7 +1,6 @@
 import { useEffect, useRef, useMemo } from "react";
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from "react-leaflet";
 import L from "leaflet";
-import ReactDOMServer from "react-dom/server";
 import { Trip, Stop } from "@/data/mockTrip";
 import StopPopup from "./StopPopup";
 import "leaflet/dist/leaflet.css";
