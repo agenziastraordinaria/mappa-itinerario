@@ -64,7 +64,7 @@ function createPopupHTML(stop: Stop): string {
           <img src="${stop.image}" alt="${stop.title}" style="width:100%;height:100%;object-fit:cover" />
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.6),transparent)"></div>
           <div style="position:absolute;bottom:8px;left:12px;right:12px">
-            <h3 style="color:white;font-family:'Playfair Display',serif;font-weight:700;font-size:18px;margin:0;line-height:1.2">${stop.title}</h3>
+            <h3 style="color:white;font-family:'PP Pangram Sans',system-ui,sans-serif;font-weight:700;font-size:18px;margin:0;line-height:1.2">${stop.title}</h3>
             <p style="color:rgba(255,255,255,0.8);font-size:12px;margin:4px 0 0">${stop.date}</p>
           </div>
         </div>
