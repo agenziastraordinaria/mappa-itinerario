@@ -53,9 +53,11 @@ const StopCard = ({ stop, isActive, onClick, onOpenDetail }: StopCardProps) => {
               {stop.date}
             </p>
           )}
-          <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
-            {truncate(stop.description, 120)}
-          </p>
+          {!expanded && (
+            <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
+              {truncate(stop.description, 120)}
+            </p>
+          )}
         </div>
       </button>
 
