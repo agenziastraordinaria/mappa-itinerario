@@ -61,8 +61,8 @@ export const mockTrip: Trip = {
       order: 4,
       latitude: 36.3932,
       longitude: 25.4615,
-      description: "Watch the sunset over the caldera from the white-washed cliffs of Oia.",
-      date: "Jun 25, 2025",
+      description: "Ammira il tramonto sulla caldera dalle scogliere bianche di Oia.",
+      date: "25 Giu 2025",
       image: "https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=400&h=250&fit=crop",
     },
     {
