@@ -1,3 +1,9 @@
+declare global {
+  interface Window {
+    travelMapData?: any;
+  }
+}
+
 import { useState } from "react";
 import { mockTrip, Stop } from "@/data/mockTrip";
 import StopsSidebar from "@/components/StopsSidebar";
